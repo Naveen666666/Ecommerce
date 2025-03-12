@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for background images and popup */
+        .hero {
+            background-image: url('https://image01.realme.net/general/20220919/1663578749681.jpg');
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+        /* Cart Icon Styling */
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        /* Adjusted product card styling to match image layout */
+        .product {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 250px;
+            margin: 0 auto;
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+        .product h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .product .price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .product button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .product button:hover {
+            background-color: #2563eb;
+        }
+
+        /* Search Results Styling */
+        #searchResults {
+            display: none;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 1200px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        #searchResults h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .search-result-item img {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .search-result-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .search-result-item p {
+            margin-bottom: 0.5rem;
+        }
+
+        .search-result-item button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .search-result-item button:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body class="font-sans text-base md:text-sm min-h-screen flex flex-col">
+    <header class="bg-black w-full h-20 flex items-center justify-between px-4 fixed top-0 z-10">
+        <div class="top-bar">
+            <a href="home.html">
+                <img src="https://seeklogo.com/images/R/realme-logo-DE81ABE1A1-seeklogo.com.png" alt="Realme Logo" class="w-[150px] h-20 -ml-2">
+            </a>
+        </div>
+        <nav class="hidden md:flex items-center">
+            <ul class="flex flex-row items-center space-x-4">
+                <li><a href="home.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Home</a></li>
+                <li><a href="about.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">About</a></li>
+                <li><a href="product.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Product</a></li>
+                <li><a href="service.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Service</a></li>
+                <li><a href="Contact.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Contact</a></li>
+                <li>
+                    <form id="searchFormDesktop" class="flex items-center">
+                        <input type="text" name="query" placeholder="Search..." class="border-none rounded-md mr-2 p-1 w-32 md:w-20">
+                        <button type="submit" class="bg-white text-black border-none rounded-md p-1 w-12 h-6 flex items-center justify-center hover:bg-gray-200">
+                            <i class="fas fa-search text-sm"></i>
+                        </button>
+                    </form>
+                </li>
+                <li class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart text-white text-2xl"></i>
+                    <span id="cartCount" class="cart-count">0</span>
+                </li>
+            </ul>
+        </nav>
+        <button class="menu-toggle md:hidden text-white text-2xl bg-none border-none cursor-pointer">☰</button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="dropdown-menu md:hidden bg-black absolute top-20 left-0 w-full hidden flex-col z-10">
+        <ul class="flex flex-col space-y-2 p-4">
+            <li><a href="home.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Home</a></li>
+            <li><a href="about.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">About</a></li>
+            <li><a href="product.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Product</a></li>
+            <li><a href="service.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Service</a></li>
+            <li><a href="Contact.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Contact</a></li>
+            <li>
+                <form id="searchFormMobile" class="flex items-center">
+                    <input type="text" name="query" placeholder="Search..." class="border-none rounded-md mr-2 p-1 w-32 md:w-20">
+                    <button type="submit" class="bg-white text-black border-none rounded-md p-1 w-12 h-6 flex items-center justify-center hover:bg-gray-200">
+                        <i class="fas fa-search text-sm"></i>
+                    </button>
+                </form>
+            </li>
+            <li class="cart-icon" id="mobileCartIcon">
+                <i class="fas fa-shopping-cart text-white text-2xl"></i>
+                <span id="mobileCartCount" class="cart-count">0</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="hero text-center py-12 px-5 bg-cover text-white mt-20">
+        <h1 class="text-5xl md:text-3xl mb-5">Welcome to realme Mobile Store</h1>
+        <p class="text-xl md:text-base">Discover the latest smartphones designed to elevate your experience.</p>
+    </div>
+
+    <!-- Search Results Section -->
+    <div id="searchResults" class="container mx-auto">
+        <h2>Search Results</h2>
+        <div id="searchResultsList" class="grid grid-cols-1 md:grid-cols-4 gap-5 p-5 max-w-7xl mx-auto"></div>
+    </div>
+
+    <!-- Updated products section with more items -->
+    <div class="products grid grid-cols-1 md:grid-cols-4 gap-5 p-5 max-w-7xl mx-auto">
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="Processor: MediaTek Dimensity 920<br>Display: 6.6-inch AMOLED 120Hz<br>Battery: 5000mAh with fast charging<br>Camera: 108MP Ultra HD Camera">
+            <img src="https://image01.realme.net/general/20220426/1650965193532.png.webp" alt="realme GT NEO 3" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">realme GT NEO 3</h2>
+            <p class="text-gray-600 mb-4">Experience ultimate performance with cutting-edge technology.</p>
+            <div class="price text-xl font-bold mb-4">$499</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="High-speed USB-C cable<br>Length: 1m<br>Compatibility: All USB-C devices">
+            <img src="https://image01.realme.net/general/20240705/17201589093269914a542074c4f2f889200322f7be33f.png.webp?width=1080&height=1080&size=123791" alt="Type-C Cable" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">Type-C Cable</h2>
+            <p class="text-gray-600 mb-4">Stylish design meets powerful functionality.</p>
+            <div class="price text-xl font-bold mb-4">$10</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="Over-ear headphones<br>Battery: 40 hours<br>Features: Noise cancellation">
+            <img src="https://image01.realme.net/general/20241014/17288795936668c68fced6fb04cdb9365c8915f7fbd77.png.webp?width=1440&height=1440&size=282698" alt="realme Techlife Studio H1" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">realme Techlife Studio H1</h2>
+            <p class="text-gray-600 mb-4">Unmatched speed and efficiency for modern users.</p>
+            <div class="price text-xl font-bold mb-4">$99</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="Smartwatch with AMOLED display<br>Battery: 14 days<br>Features: Heart rate monitor">
+            <img src="https://image01.realme.net/general/20240820/17241251539447c249f7ed3324991a35da5265caacc08.png.webp?width=1440&height=1440&size=998486" alt="realme Watch S2" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">realme Watch S2</h2>
+            <p class="text-gray-600 mb-4">Experience ultimate performance with cutting-edge technology.</p>
+            <div class="price text-xl font-bold mb-4">$79</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="Processor: MediaTek Dimensity 920<br>Display: 6.6-inch AMOLED 120Hz<br>Battery: 5000mAh with fast charging<br>Camera: 108MP Ultra HD Camera">
+            <img src="https://image01.realme.net/general/20240626/1719375707588c5d42167cbf94f0a80ae59bb38880384.png.webp?width=1440&height=1440&size=304624" alt="realme C61" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">realme C61</h2>
+            <p class="text-gray-600 mb-4">Affordable and stylish smartphone for everyone.</p>
+            <div class="price text-xl font-bold mb-4">$699</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="Processor: Qualcomm Snapdragon 870<br>Display: 120Hz AMOLED display<br>Battery: 4500mAh<br>Camera: 64MP AI Triple Camera">
+            <img src="https://image01.realme.net/general/20240812/1723446484430841e631956d34053b6ecaa40c1da8740.png.webp?width=1440&height=1440&size=1840726" alt="realme C63 5G" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">realme C63 5G</h2>
+            <p class="text-gray-600 mb-4">High performance and elegant design combined.</p>
+            <div class="price text-xl font-bold mb-4">$599</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="Processor: MediaTek Dimensity 920<br>Display: 6.6-inch AMOLED 120Hz<br>Battery: 5000mAh with fast charging<br>Camera: 108MP Ultra HD Camera">
+            <img src="https://image01.realme.net/general/20240910/172596824441651b7a90692da45af85efeb93927f9743.png.webp?width=1080&height=1080&size=976443" alt="realme NARZO 70 Turbo 5G" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">realme NARZO 70 Turbo 5G</h2>
+            <p class="text-gray-600 mb-4">Stylish design meets powerful functionality.</p>
+            <div class="price text-xl font-bold mb-4">$599</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="Processor: MediaTek Dimensity 920<br>Display: 6.6-inch AMOLED 120Hz<br>Battery: 5000mAh with fast charging<br>Camera: 108MP Ultra HD Camera">
+            <img src="https://image01.realme.net/general/20240710/1720583824399436df410ce0d498181e100c031d95a18.png.webp?width=1440&height=1440&size=416389" alt="realme GT 6T" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">realme GT 6T</h2>
+            <p class="text-gray-600 mb-4">Unmatched speed and efficiency for modern users.</p>
+            <div class="price text-xl font-bold mb-4">$699</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="Wireless earbuds<br>Battery: 20 hours with case<br>Features: Noise reduction">
+            <img src="https://image01.realme.net/general/20250107/17362322852154eea90c214c7454b923c1f408af6e448.png.webp?width=1080&height=1080&size=92733" alt="realme Buds 2 Neo" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">realme Buds 2 Neo</h2>
+            <p class="text-gray-600 mb-4">Stylish design meets powerful functionality.</p>
+            <div class="price text-xl font-bold mb-4">$29</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+        <div class="product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center" data-description="Fitness band<br>Battery: 10 days<br>Features: Step counter, sleep tracking">
+            <img src="https://image01.realme.net/general/20210916/1631776036289.png.webp" alt="realme Band 2" class="w-full h-auto rounded-md mb-4">
+            <h2 class="text-2xl mb-2">realme Band 2</h2>
+            <p class="text-gray-600 mb-4">Unmatched speed and efficiency for modern users.</p>
+            <div class="price text-xl font-bold mb-4">$39</div>
+            <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="popup hidden bg-white p-8 shadow-lg w-[80%] max-w-md" id="popup">
+        <img src="" alt="Product Image" class="w-full h-auto mb-4">
+        <h2 class="text-2xl mb-4"></h2>
+        <p class="mb-4"></p>
+        <div class="price text-xl font-bold mb-4"></div>
+        <div class="flex justify-between">
+            <button id="addToCartBtn" class="bg-green-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-green-700 transition">Add to Cart</button>
+            <button onclick="hidePopup()" class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Close</button>
+        </div>
+    </div>
+    <div class="overlay hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50" id="overlay"></div>
+
+    <footer class="bg-black text-white py-5 text-center w-full mt-auto">
+        <p>© 2025 Realme. All rights reserved.</p>
+        <div class="footer-socials mt-2">
+            <a href="#" class="text-white mx-2 text-lg hover:text-yellow-400">Facebook</a>
+            <a href="#" class="text-white mx-2 text-lg hover:text-yellow-400">Twitter</a>
+            <a href="#" class="text-white mx-2 text-lg hover:text-yellow-400">Instagram</a>
+            <a href="#" class="text-white mx-2 text-lg hover:text-yellow-400">LinkedIn</a>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        document.querySelector('.menu-toggle').addEventListener('click', () => {
+            document.querySelector('.dropdown-menu').classList.toggle('hidden');
+        });
+
+        // Cart management
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function updateCartCount() {
+            const cartCount = document.getElementById('cartCount');
+            const mobileCartCount = document.getElementById('mobileCartCount');
+            const count = cart.length;
+            cartCount.textContent = count;
+            mobileCartCount.textContent = count;
+        }
+
+        function addToCart(imageSrc, title, description, price) {
+            try {
+                const product = { image: imageSrc, name: title, description: description, price: price };
+                if (!cart.some(item => item.name === product.name)) {
+                    cart.push(product);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartCount();
+                    alert(`${product.name} has been added to your cart!`);
+                } else {
+                    alert(`${product.name} is already in your cart!`);
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error.message);
+                alert('An error occurred while adding to cart. Please check the console for details.');
+            }
+        }
+
+        // Show popup with Add to Cart option
+        function showPopup(imageSrc, title, description, price) {
+            const popup = document.getElementById('popup');
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            popup.querySelector('img').src = imageSrc;
+            popup.querySelector('h2').textContent = title;
+            popup.querySelector('p').innerHTML = description;
+            popup.querySelector('.price').textContent = price;
+            popup.classList.remove('hidden');
+            document.getElementById('overlay').classList.remove('hidden');
+
+            addToCartBtn.onclick = () => {
+                addToCart(imageSrc, title, description, price);
+                hidePopup();
+            };
+        }
+
+        function hidePopup() {
+            document.getElementById('popup').classList.add('hidden');
+            document.getElementById('overlay').classList.add('hidden');
+        }
+
+        // Add click events to products
+        document.querySelectorAll('.product').forEach(product => {
+            product.addEventListener('click', (event) => {
+                if (event.target.tagName === 'BUTTON') return;
+                const imageSrc = product.querySelector('img').src;
+                const title = product.querySelector('h2').textContent;
+                const description = product.dataset.description;
+                const price = product.querySelector('.price').textContent;
+                showPopup(imageSrc, title, description, price);
+            });
+        });
+
+        // Handle direct Add to Cart button clicks (add to cart instead of redirect)
+        document.querySelectorAll('.product button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                try {
+                    const product = event.target.closest('.product');
+                    if (!product) throw new Error('Product element not found');
+
+                    const titleElement = product.querySelector('h2');
+                    const priceElement = product.querySelector('.price');
+                    const imgElement = product.querySelector('img');
+
+                    if (!titleElement || !priceElement || !imgElement) {
+                        throw new Error('Missing product details (title, price, or image)');
+                    }
+
+                    const title = titleElement.textContent;
+                    const price = priceElement.textContent;
+                    const imageSrc = imgElement.src;
+
+                    if (!title || !price || !imageSrc) {
+                        throw new Error('Product details are empty');
+                    }
+
+                    addToCart(imageSrc, title, product.dataset.description, price);
+                } catch (error) {
+                    console.error('Error in Add to Cart:', error.message);
+                    alert('An error occurred while adding to cart. Please check the console for details.');
+                }
+            });
+        });
+
+        // Handle cart icon click to open payment page
+        document.getElementById('cartIcon').addEventListener('click', () => {
+            if (cart.length > 0) {
+                const cartData = encodeURIComponent(JSON.stringify(cart));
+                window.location.href = `payment.html?cart=${cartData}`;
+            } else {
+                alert('Your cart is empty!');
+            }
+        });
+
+        document.getElementById('mobileCartIcon').addEventListener('click', () => {
+            if (cart.length > 0) {
+                const cartData = encodeURIComponent(JSON.stringify(cart));
+                window.location.href = `payment.html?cart=${cartData}`;
+            } else {
+                alert('Your cart is empty!');
+            }
+        });
+
+        // Search Functionality
+        const searchFormDesktop = document.getElementById('searchFormDesktop');
+        const searchFormMobile = document.getElementById('searchFormMobile');
+        const searchResults = document.getElementById('searchResults');
+        const searchResultsList = document.getElementById('searchResultsList');
+        const productsSection = document.querySelector('.products');
+
+        function handleSearch(event) {
+            event.preventDefault(); // Prevent form submission
+            const query = event.target.querySelector('input[name="query"]').value.trim().toLowerCase();
+
+            if (!query) {
+                searchResults.style.display = 'none';
+                productsSection.style.display = 'grid'; // Show all products if search is empty
+                return;
+            }
+
+            // Filter products based on name or description
+            const filteredProducts = Array.from(document.querySelectorAll('.product')).filter(product => {
+                const title = product.querySelector('h2').textContent.toLowerCase();
+                const description = product.dataset.description.toLowerCase();
+                return title.includes(query) || description.includes(query);
+            });
+
+            // Display search results
+            searchResultsList.innerHTML = '';
+            if (filteredProducts.length > 0) {
+                filteredProducts.forEach(product => {
+                    const imageSrc = product.querySelector('img').src;
+                    const title = product.querySelector('h2').textContent;
+                    const description = product.dataset.description;
+                    const price = product.querySelector('.price').textContent;
+
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'product bg-white border border-gray-300 rounded-lg p-4 w-full shadow-md text-center';
+                    resultItem.innerHTML = `
+                        <img src="${imageSrc}" alt="${title}" class="w-full h-auto rounded-md mb-4">
+                        <h2 class="text-2xl mb-2">${title}</h2>
+                        <p class="text-gray-600 mb-4">${description}</p>
+                        <div class="price text-xl font-bold mb-4">${price}</div>
+                        <button class="bg-blue-600 text-white border-none py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition">Add to Cart</button>
+                    `;
+                    searchResultsList.appendChild(resultItem);
+                });
+
+                productsSection.style.display = 'none'; // Hide original product grid
+                searchResults.style.display = 'block';
+            } else {
+                searchResultsList.innerHTML = '<p>No products found.</p>';
+                productsSection.style.display = 'none'; // Hide original product grid
+                searchResults.style.display = 'block';
+            }
+
+            // Add event listeners to new Add to Cart buttons
+            searchResultsList.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const product = button.closest('.product');
+                    const imageSrc = product.querySelector('img').src;
+                    const title = product.querySelector('h2').textContent;
+                    const description = product.dataset.description;
+                    const price = product.querySelector('.price').textContent;
+                    addToCart(imageSrc, title, description, price);
+                });
+            });
+        }
+
+        searchFormDesktop.addEventListener('submit', handleSearch);
+        searchFormMobile.addEventListener('submit', handleSearch);
+
+        // Initialize cart count on page load
+        window.onload = updateCartCount;
+    </script>
+</body>
+</html>
