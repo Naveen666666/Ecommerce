@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -125,61 +125,88 @@
         .search-result-item button:hover {
             background-color: #2563eb;
         }
+        @media (max-width: 767px) {
+             
+             .dropdown-menu {
+                 text-align: center; /* Center dropdown menu items */
+             }
+             .dropdown-menu ul {
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center; /* Center items vertically */
+             }
+             .hero {
+                 padding: 2rem 1rem; /* Reduce padding for mobile */
+                 text-align: center; /* Ensure text is centered */
+             }
+             .products {
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center; /* Center product cards */
+             }
+             .product {
+                 width: 100%;
+                 max-width: 300px; /* Slightly larger for mobile readability */
+             }
+             footer {
+                 text-align: center; /* Ensure footer is centered */
+             }
+             .footer-socials {
+                 display: flex;
+                 justify-content: center; /* Center social links */
+                 flex-wrap: wrap;
+             }
+         }
     </style>
 </head>
 <body class="font-sans text-base md:text-sm min-h-screen flex flex-col">
-    <header class="bg-black w-full h-20 flex items-center justify-between px-4 fixed top-0 z-10">
+    <header class="bg-black w-full h-20 flex items-center justify-between px-2.5 fixed top-0 z-10">
         <div class="top-bar">
             <a href="home.html">
-                <img src="https://seeklogo.com/images/R/realme-logo-DE81ABE1A1-seeklogo.com.png" alt="Realme Logo" class="w-[150px] h-20 -ml-2">
+                <img src="https://seeklogo.com/images/R/realme-logo-DE81ABE1A1-seeklogo.com.png" alt="Realme Logo" class="w-[150px] h-20 -ml-2.5">
             </a>
         </div>
-        <nav class="hidden md:flex items-center">
-            <ul class="flex flex-row items-center space-x-4">
-                <li><a href="home.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Home</a></li>
-                <li><a href="about.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">About</a></li>
-                <li><a href="product.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Product</a></li>
-                <li><a href="service.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Service</a></li>
-                <li><a href="Contact.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Contact</a></li>
+        <nav>
+            <ul class="hidden md:flex items-center">
+                <li><a href="home.html" class="text-white px-2.5 py-2 block hover:bg-yellow-400 hover:rounded-md">Home</a></li>
+                <li><a href="about.html" class="text-white px-2.5 py-2 block hover:bg-yellow-400 hover:rounded-md">About</a></li>
+                <li><a href="product.html" class="text-white px-2.5 py-2 block hover:bg-yellow-400 hover:rounded-md">Product</a></li>
+                <li><a href="service.html" class="text-white px-2.5 py-2 block hover:bg-yellow-400 hover:rounded-md">Service</a></li>
+                <li><a href="Contact.html" class="text-white px-2.5 py-2 block hover:bg-yellow-400 hover:rounded-md">Contact</a></li>
                 <li>
-                    <form id="searchFormDesktop" class="flex items-center">
-                        <input type="text" name="query" placeholder="Search..." class="border-none rounded-md mr-2 p-1 w-32 md:w-20">
-                        <button type="submit" class="bg-white text-black border-none rounded-md p-1 w-12 h-6 flex items-center justify-center hover:bg-gray-200">
-                            <i class="fas fa-search text-sm"></i>
+                    <form class="search-form flex items-center">
+                        <input type="text" name="query" placeholder="Search..." class="border-none rounded-md mr-2 p-1.5 w-32">
+                        <button type="submit" class="p-1 bg-white text-black border-none rounded-md w-16 h-6 hover:bg-[#f5deb3]">
+                            <i class="fas fa-search"></i>
                         </button>
                     </form>
                 </li>
-                <li class="cart-icon" id="cartIcon">
-                    <i class="fas fa-shopping-cart text-white text-2xl"></i>
-                    <span id="cartCount" class="cart-count">0</span>
-                </li>
             </ul>
         </nav>
-        <button class="menu-toggle md:hidden text-white text-2xl bg-none border-none cursor-pointer">☰</button>
+        <button class="menu-toggle md:hidden text-white text-2xl bg-transparent border-none cursor-pointer">☰</button>
     </header>
-
-    <!-- Mobile Menu -->
-    <div class="dropdown-menu md:hidden bg-black absolute top-20 left-0 w-full hidden flex-col z-10">
-        <ul class="flex flex-col space-y-2 p-4">
-            <li><a href="home.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Home</a></li>
-            <li><a href="about.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">About</a></li>
-            <li><a href="product.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Product</a></li>
-            <li><a href="service.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Service</a></li>
-            <li><a href="Contact.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Contact</a></li>
-            <li>
-                <form id="searchFormMobile" class="flex items-center">
-                    <input type="text" name="query" placeholder="Search..." class="border-none rounded-md mr-2 p-1 w-32 md:w-20">
-                    <button type="submit" class="bg-white text-black border-none rounded-md p-1 w-12 h-6 flex items-center justify-center hover:bg-gray-200">
-                        <i class="fas fa-search text-sm"></i>
-                    </button>
-                </form>
-            </li>
-            <li class="cart-icon" id="mobileCartIcon">
-                <i class="fas fa-shopping-cart text-white text-2xl"></i>
-                <span id="mobileCartCount" class="cart-count">0</span>
-            </li>
-        </ul>
-    </div>
+ <!-- Mobile Menu -->
+ <div class="dropdown-menu md:hidden bg-black absolute top-20 left-0 w-full hidden flex-col z-10">
+    <ul class="flex flex-col space-y-2 p-4">
+        <li><a href="home.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Home</a></li>
+        <li><a href="about.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">About</a></li>
+        <li><a href="product.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Product</a></li>
+        <li><a href="service.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Service</a></li>
+        <li><a href="Contact.html" class="text-white px-4 py-2 hover:bg-yellow-400 hover:rounded-md">Contact</a></li>
+        <li>
+            <form id="searchFormMobile" class="flex items-center">
+                <input type="text" name="query" placeholder="Search..." class="border-none rounded-md mr-2 p-1 w-32">
+                <button type="submit" class="bg-white text-black border-none rounded-md p-1 w-12 h-6 hover:bg-gray-200">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </li>
+        <li class="cart-icon" id="mobileCartIcon">
+            <i class="fas fa-shopping-cart text-white text-2xl"></i>
+            <span id="mobileCartCount" class="cart-count">0</span>
+        </li>
+    </ul>
+</div>
 
     <div class="hero text-center py-12 px-5 bg-cover text-white mt-20">
         <h1 class="text-5xl md:text-3xl mb-5">Welcome to realme Mobile Store</h1>
