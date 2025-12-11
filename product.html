@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - MobileMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #000; color: white; font-family: 'Inter', sans-serif; }
+        .color-btn { width: 60px; height: 60px; border-radius: 50%; border: 4px solid transparent; transition: all 0.3s; cursor: pointer; }
+        .color-btn.active { border-color: #FFB800; transform: scale(1.2); }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 backdrop-blur-xl bg-black/95 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="index.html" class="text-4xl font-black text-yellow-400">MobileMart</a>
+            <nav class="hidden md:flex items-center gap-10 text-xl font-medium">
+                <a href="productpage.html" class="hover:text-yellow-400 transition">Products</a>
+                <a href="about.html" class="hover:text-yellow-400 transition">About</a>
+                <a href="service.html" class="hover:text-yellow-400 transition">Service</a>
+                <a href="profile.html" class="hover:text-yellow-400 transition flex items-center gap-2">
+                    <i class="fas fa-user-circle"></i> Profile
+                </a>
+            </nav>
+            <button id="menuBtn" class="md:hidden text-3xl" title="Toggle menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Back Button -->
+    <div class="fixed top-24 left-8 z-40">
+        <button onclick="window.location.href = 'index.html';"
+                class="bg-white/10 backdrop-blur px-8 py-4 rounded-full flex items-center gap-4 hover:bg-white/20 transition text-xl font-medium shadow-2xl">
+            <i class="fas fa-arrow-left text-2xl"></i> Back to Home
+        </button>
+    </div>
+
+    <!-- Product Content -->
+    <main class="pt-40 px-6 pb-20">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16">
+            <div>
+                <img id="mainImg" src="" alt="Product" class="w-full rounded-3xl object-contain bg-white/5 p-12 shadow-2xl">
+                <div class="flex justify-center gap-8 mt-10" id="colors"></div>
+            </div>
+
+            <div class="space-y-10">
+                <div>
+                    <h1 id="name" class="text-6xl font-black mb-4">Loading...</h1>
+                    <p class="text-5xl font-bold text-yellow-400" id="price">₹0</p>
+                    <p class="text-2xl text-gray-300 mt-6" id="spec">-</p>
+                </div>
+
+                <!-- Star Rating -->
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl font-black text-yellow-400" id="rating">4.6</span>
+                    <div class="flex">
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        <i class="fas fa-star-half-alt text-yellow-400 text-lg"></i>
+                    </div>
+                    <span class="text-gray-500 text-sm">(12,845 reviews)</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <button onclick="addToCart()" class="bg-yellow-400 text-black py-8 rounded-3xl text-3xl font-black hover:bg-white transition shadow-2xl">
+                        Add to Cart
+                    </button>
+                    <button onclick="buyNow()" class="bg-gradient-to-r from-orange-600 to-red-600 py-8 rounded-3xl text-3xl font-black hover:opacity-90 transition shadow-2xl">
+                        Buy Now
+                    </button>
+                </div>
+
+                <div class="bg-white/10 rounded-3xl p-10">
+                    <h3 class="text-3xl font-bold mb-8 text-yellow-400">Full Specifications</h3>
+                    <div class="text-xl leading-9 space-y-3" id="fullSpec">
+                        Loading specifications...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script>
+// FULLY FIXED & WORKING openProduct() FUNCTION
+function openProduct(id) {
+    const phones = [{id:1, name:"iPhone 16 Pro Max", price:144900, 
+     image:"https://images.pexels.com/photos/29020349/pexels-photo-29020349.jpeg?_gl=1*1v9dpap*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTUzOTAkajM1JGwwJGgw",
+     spec:"A18 Pro • 48MP Fusion Camera • 120Hz ProMotion • Titanium Design • Apple Intelligence",
+     fullSpec:`• Display: 6.9" Super Retina XDR 120Hz<br>
+               • Chip: Apple A18 Pro (3nm)<br>
+               • Camera: 48MP Fusion + 48MP Ultra Wide + 12MP 5x Telephoto<br>
+               • Video: 4K 120fps ProRes<br>
+               • Battery: Up to 33 hours video<br>
+               • Build: Aerospace-grade Titanium, IP68`},
+
+    {id:2, name:"Galaxy S25 Ultra", price:134999,
+     image:"https://images.pexels.com/photos/16149966/pexels-photo-16149966.jpeg?_gl=1*1grn8l7*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTU2NzEkajU4JGwwJGgw",
+     spec:"Snapdragon 8 Gen 4 • 200MP Camera • S Pen • Anti-reflective Display",
+     fullSpec:`• Display: 6.9" Dynamic AMOLED 2X QHD+<br>
+               • Chip: Snapdragon 8 Gen 4 for Galaxy<br>
+               • Camera: 200MP Main + 50MP Periscope + 10MP 3x<br>
+               • Features: Built-in S Pen, Galaxy AI<br>
+               • Battery: 5000mAh + 45W Charging<br>
+               • Build: Titanium Frame, Gorilla Glass Armor`},
+
+    {id:3, name:"realme GT 7 Pro", price:59999,
+     image:"https://images.pexels.com/photos/31612612/pexels-photo-31612612.jpeg?_gl=1*1687vj3*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTYyNzckajUwJGwwJGgw",
+     spec:"Snapdragon 8 Elite • 120W Ultra Charge • 6000mAh • IP69",
+     fullSpec:`• Display: 6.78" 1.5K Curved AMOLED 120Hz<br>
+               • Chip: Snapdragon 8 Elite<br>
+               • Camera: 50MP Sony IMX906 OIS + 50MP Periscope<br>
+               • Battery: 6000mAh + 120W SuperVOOC<br>
+               • Charging: 0-100% in 28 mins<br>
+               • Protection: IP69 Dust & Water Resistant`},
+
+    {id:4, name:"OnePlus 13", price:69999,
+     image:"https://image01-in.oneplus.net/media/202412/17/052a246708df8233d079b3502aeeb327.png?x-amz-process=image/format,webp/quality,Q_80",
+     spec:"Snapdragon 8 Elite • 6000mAh • 100W SUPERVOOC • Hasselblad Camera",
+     fullSpec:`• Display: 6.82" 2K 120Hz AMOLED<br>
+               • Chip: Snapdragon 8 Elite<br>
+               • Camera: 50MP Sony LYT-808 + 50MP Ultra Wide + 50MP Telephoto<br>
+               • Battery: 6000mAh + 100W Wired + 50W Wireless<br>
+               • Charging: 0-100% in 36 mins<br>
+               • OxygenOS 15 with AI features`},
+
+    {id:5, name:"Xiaomi 15 Ultra", price:89999,
+     image:"https://i05.appmifile.com/4_item_uk/28/10/2025/789e58c4612ca510cdf4192392f64a9b.png?thumb=1&f=webp&q=85",
+     spec:"Leica 200MP • Snapdragon 8 Gen 4 • 120W HyperCharge",
+     fullSpec:`• Display: 6.73" 2K 120Hz AMOLED<br>
+               • Chip: Snapdragon 8 Gen 4<br>
+               • Camera: Leica Quad 50MP (200MP Main)<br>
+               • Battery: 5500mAh + 120W Wired + 50W Wireless<br>
+               • HyperOS 2.0 based on Android 15<br>
+               • Ceramic or Vegan Leather back`},
+
+    {id:6, name:"vivo X200 Pro", price:79999,
+     image:"https://www.myg.in/images/thumbnails/600/600/detailed/103/x200-pro-5g-v2413-vivo-original-imah7btsxgazhehr-removebg-preview.png.png",
+     spec:"Zeiss 200MP • Dimensity 9400 • 5700mAh • 120W FlashCharge",
+     fullSpec:`• Display: 6.78" 2K 120Hz AMOLED<br>
+               • Chip: MediaTek Dimensity 9400<br>
+               • Camera: 200MP ZEISS APO + 50MP Ultra Wide<br>
+               • Battery: 5700mAh + 120W FlashCharge<br>
+               • OriginOS 5 with AI features<br>
+               • IP68 + IP69 rating`},
+
+    {id:7, name:"Nothing Phone (3)", price:49999,
+     image:"https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Communication/Mobiles/Images/314524_0_VTL_jxPp8.png?updatedAt=1758549799159?tr=w-640",
+     spec:"Glyph Interface • Clean Android • 120Hz Display • 50MP Dual",
+     fullSpec:`• Display: 6.7" AMOLED 120Hz<br>
+               • Chip: Snapdragon 8s Gen 3<br>
+               • Camera: 50MP Main + 50MP Ultra Wide<br>
+               • Battery: 5000mAh + 65W Charging<br>
+               • Nothing OS 3.0 (Clean Android)<br>
+               • Unique Transparent Design + Glyph Lights`},
+
+    {id:8, name:"Motorola Edge 50 Ultra", price:54999,
+     image:"https://motorolaroe.vtexassets.com/arquivos/ids/157648-1200-auto?width=1200&height=auto&aspect=true",
+     spec:"Snapdragon 8s Gen 3 • 144Hz pOLED • 125W TurboPower",
+     fullSpec:`• Display: 6.7" pOLED 144Hz 1.5K<br>
+               • Chip: Snapdragon 8s Gen 3<br>
+               • Camera: 50MP OIS + 64MP Telephoto + 50MP Ultra Wide<br>
+               • Battery: 4500mAh + 125W TurboPower<br>
+               • 50W Wireless + 10W Reverse<br>
+               • Pantone Validated Color`}
+    ];
+
+    const phone = phones.find(p => p.id === id);
+    if (phone) {
+        localStorage.setItem('selectedPhone', JSON.stringify(phone));
+        window.location.href = 'product.html';
+    }
+}
+
+// Load product when page opens
+document.addEventListener('DOMContentLoaded', () => {
+    const phone = JSON.parse(localStorage.getItem('selectedPhone'));
+    if (phone) {
+        document.getElementById('name').textContent = phone.name;
+        document.getElementById('price').textContent = '₹' + phone.price.toLocaleString('en-IN');
+        document.getElementById('spec').textContent = phone.spec;
+        document.getElementById('mainImg').src = phone.image;
+        document.getElementById('fullSpec').innerHTML = phone.fullSpec || "Premium flagship device";
+    } else {
+        document.body.innerHTML = "<h1 class='text-center text-6xl pt-40 text-red-500'>No product found!</h1>";
+    }
+});
+
+function addToCart() {
+    const phone = JSON.parse(localStorage.getItem('selectedPhone'));
+    if (!phone) return;
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existing = cart.find(item => item.id === phone.id);
+    if (existing) existing.qty += 1;
+    else cart.push({ ...phone, qty: 1 });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(phone.name + " added to cart!");
+}
+
+function buyNow() {
+    addToCart();
+    window.location.href = 'payment.html';
+}
+</script>
+</body>
+</html>

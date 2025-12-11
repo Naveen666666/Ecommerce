@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - MobileMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        .glass:hover {
+            transform: translateY(-16px);
+            border-color: #FFB800;
+            box-shadow: 0 30px 60px rgba(255, 184, 0, 0.3);
+        }
+
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #FFB800;
+            color: black;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 15px 40px rgba(255, 184, 0, 0.6);
+            z-index: 50;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 184, 0, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 25px rgba(255, 184, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 184, 0, 0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white">
+
+    <!-- Floating Cart -->
+    <div class="floating-cart" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cartCount"
+            class="absolute -top-3 -right-3 bg-red-600 text-white text-sm rounded-full w-9 h-9 flex items-center justify-center font-bold">0</span>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-40 backdrop-blur-xl bg-black/95 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="index.html" class="text-4xl font-black text-yellow-400">MobileMart</a>
+
+            <!-- SEARCH BOX ADDED HERE (THIS WAS MISSING!) -->
+            <div class="flex items-center gap-6">
+                <input type="text" id="search" placeholder="Search phones..."
+                    class="px-8 py-4 rounded-full bg-white/10 border border-white/20 focus:border-yellow-400 outline-none w-96 text-lg">
+
+                <nav class="hidden md:flex items-center gap-10 text-xl font-medium">
+                    <a href="productpage.html" class="hover:text-yellow-400 transition">Products</a>
+                    <a href="about.html" class="hover:text-yellow-400 transition">About</a>
+                    <a href="service.html" class="hover:text-yellow-400 transition">Service</a>
+                    <a href="profile.html" class="hover:text-yellow-400 transition flex items-center gap-2">
+                        <i class="fas fa-user-circle"></i> Profile
+                    </a>
+                </nav>
+            </div>
+
+            <button id="menuBtn" class="md:hidden text-3xl" title="Open menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-black/98 z-50 hidden flex-col items-center justify-center gap-12 text-3xl font-bold">
+        <button class="absolute top-10 right-10 text-5xl"
+            onclick="document.getElementById('mobileMenu').classList.add('hidden')">×</button>
+        <a href="productpage.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="service.html">Service</a>
+        <a href="profile.html">Profile</a>
+    </div>
+
+    <!-- Hero Title -->
+    <div class="pt-32 text-center mb-20">
+        <h1 class="text-7xl md:text-9xl font-black text-yellow-400 mb-6">ALL PRODUCTS</h1>
+        <p class="text-3xl text-gray-300">Choose your dream phone from 50+ latest models</p>
+    </div>
+
+    <!-- All Products Grid -->
+    <main class="max-w-7xl mx-auto px-6 pb-32">
+        <div id="allProducts" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
+            <!-- Phones will appear here -->
+        </div>
+    </main>
+    <section class="py-16 bg-black/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-black text-center mb-12 text-yellow-400">Shop by Brand</h2>
+            <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-10">
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/32/1/apple-logo-png_seeklogo-329197.png"
+                        alt="Apple logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">Apple</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/12/1/samsung-logo-png_seeklogo-122019.png"
+                        alt="Samsung logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">Samsung</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/34/1/realme-logo-png_seeklogo-349344.png"
+                        alt="realme logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">realme</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/37/1/oneplus-logo-png_seeklogo-372201.png"
+                        alt="OnePlus logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">OnePlus</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/31/1/mi-mobiles-logo-png_seeklogo-318623.png"
+                        alt="Xiaomi logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">Xiaomi</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/30/1/vivo-logo-png_seeklogo-305395.png"
+                        alt="vivo logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">vivo</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/35/1/oppo-logo-png_seeklogo-350834.png"
+                        alt="OPPO logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">OPPO</p>
+                </div>
+                <div class="text-center"><img src="https://images.indianexpress.com/2021/07/Nothing-logo.jpg?w=640"
+                        alt="Nothing logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">Nothing</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section id="products" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-6xl font-black text-center mb-16 text-yellow-400">Latest Mobiles 2025</h2>
+            <div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
+                <!-- Phones load here -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const phones = [
+            {
+                id: 1, name: "iPhone 16 Pro Max", price: 144900,
+                image: "https://images.pexels.com/photos/29020349/pexels-photo-29020349.jpeg?_gl=1*1v9dpap*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTUzOTAkajM1JGwwJGgw",
+                spec: "A18 Pro • 48MP Fusion Camera • 120Hz ProMotion • Titanium Design • Apple Intelligence",
+                fullSpec: `• Display: 6.9" Super Retina XDR 120Hz<br>
+               • Chip: Apple A18 Pro (3nm)<br>
+               • Camera: 48MP Fusion + 48MP Ultra Wide + 12MP 5x Telephoto<br>
+               • Video: 4K 120fps ProRes<br>
+               • Battery: Up to 33 hours video<br>
+               • Build: Aerospace-grade Titanium, IP68`},
+
+            {
+                id: 2, name: "Galaxy S25 Ultra", price: 134999,
+                image: "https://images.pexels.com/photos/16149966/pexels-photo-16149966.jpeg?_gl=1*1grn8l7*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTU2NzEkajU4JGwwJGgw",
+                spec: "Snapdragon 8 Gen 4 • 200MP Camera • S Pen • Anti-reflective Display",
+                fullSpec: `• Display: 6.9" Dynamic AMOLED 2X QHD+<br>
+               • Chip: Snapdragon 8 Gen 4 for Galaxy<br>
+               • Camera: 200MP Main + 50MP Periscope + 10MP 3x<br>
+               • Features: Built-in S Pen, Galaxy AI<br>
+               • Battery: 5000mAh + 45W Charging<br>
+               • Build: Titanium Frame, Gorilla Glass Armor`},
+
+            {
+                id: 3, name: "realme GT 7 Pro", price: 59999,
+                image: "https://images.pexels.com/photos/31612612/pexels-photo-31612612.jpeg?_gl=1*1687vj3*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTYyNzckajUwJGwwJGgw",
+                spec: "Snapdragon 8 Elite • 120W Ultra Charge • 6000mAh • IP69",
+                fullSpec: `• Display: 6.78" 1.5K Curved AMOLED 120Hz<br>
+               • Chip: Snapdragon 8 Elite<br>
+               • Camera: 50MP Sony IMX906 OIS + 50MP Periscope<br>
+               • Battery: 6000mAh + 120W SuperVOOC<br>
+               • Charging: 0-100% in 28 mins<br>
+               • Protection: IP69 Dust & Water Resistant`},
+
+            {
+                id: 4, name: "OnePlus 13", price: 69999,
+                image: "https://image01-in.oneplus.net/media/202412/17/052a246708df8233d079b3502aeeb327.png?x-amz-process=image/format,webp/quality,Q_80",
+                spec: "Snapdragon 8 Elite • 6000mAh • 100W SUPERVOOC • Hasselblad Camera",
+                fullSpec: `• Display: 6.82" 2K 120Hz AMOLED<br>
+               • Chip: Snapdragon 8 Elite<br>
+               • Camera: 50MP Sony LYT-808 + 50MP Ultra Wide + 50MP Telephoto<br>
+               • Battery: 6000mAh + 100W Wired + 50W Wireless<br>
+               • Charging: 0-100% in 36 mins<br>
+               • OxygenOS 15 with AI features`},
+
+            {
+                id: 5, name: "Xiaomi 15 Ultra", price: 89999,
+                image: "https://i05.appmifile.com/4_item_uk/28/10/2025/789e58c4612ca510cdf4192392f64a9b.png?thumb=1&f=webp&q=85",
+                spec: "Leica 200MP • Snapdragon 8 Gen 4 • 120W HyperCharge",
+                fullSpec: `• Display: 6.73" 2K 120Hz AMOLED<br>
+               • Chip: Snapdragon 8 Gen 4<br>
+               • Camera: Leica Quad 50MP (200MP Main)<br>
+               • Battery: 5500mAh + 120W Wired + 50W Wireless<br>
+               • HyperOS 2.0 based on Android 15<br>
+               • Ceramic or Vegan Leather back`},
+
+            {
+                id: 6, name: "vivo X200 Pro", price: 79999,
+                image: "https://www.myg.in/images/thumbnails/600/600/detailed/103/x200-pro-5g-v2413-vivo-original-imah7btsxgazhehr-removebg-preview.png.png",
+                spec: "Zeiss 200MP • Dimensity 9400 • 5700mAh • 120W FlashCharge",
+                fullSpec: `• Display: 6.78" 2K 120Hz AMOLED<br>
+               • Chip: MediaTek Dimensity 9400<br>
+               • Camera: 200MP ZEISS APO + 50MP Ultra Wide<br>
+               • Battery: 5700mAh + 120W FlashCharge<br>
+               • OriginOS 5 with AI features<br>
+               • IP68 + IP69 rating`},
+
+            {
+                id: 7, name: "Nothing Phone (3)", price: 49999,
+                image: "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Communication/Mobiles/Images/314524_0_VTL_jxPp8.png?updatedAt=1758549799159?tr=w-640",
+                spec: "Glyph Interface • Clean Android • 120Hz Display • 50MP Dual",
+                fullSpec: `• Display: 6.7" AMOLED 120Hz<br>
+               • Chip: Snapdragon 8s Gen 3<br>
+               • Camera: 50MP Main + 50MP Ultra Wide<br>
+               • Battery: 5000mAh + 65W Charging<br>
+               • Nothing OS 3.0 (Clean Android)<br>
+               • Unique Transparent Design + Glyph Lights`},
+
+            {
+                id: 8, name: "Motorola Edge 50 Ultra", price: 54999,
+                image: "https://motorolaroe.vtexassets.com/arquivos/ids/157648-1200-auto?width=1200&height=auto&aspect=true",
+                spec: "Snapdragon 8s Gen 3 • 144Hz pOLED • 125W TurboPower",
+                fullSpec: `• Display: 6.7" pOLED 144Hz 1.5K<br>
+               • Chip: Snapdragon 8s Gen 3<br>
+               • Camera: 50MP OIS + 64MP Telephoto + 50MP Ultra Wide<br>
+               • Battery: 4500mAh + 125W TurboPower<br>
+               • 50W Wireless + 10W Reverse<br>
+               • Pantone Validated Color`},
+            {
+                id: 9, name: "Google Pixel 10 Pro", price: 84900,
+                image: "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Communication/Mobiles/Images/318395_0_UyVzL-I9C.png?updatedAt=1755700508474?tr=w-640",
+                spec: "Tensor G5 • 50MP Triple Camera • 24+ hrs Battery • 16GB RAM",
+                fullSpec: `• Display: 6.3" Super Actua LTPO OLED 120Hz<br>
+                • Chip: Google Tensor G5<br>
+                • Camera: 50MP Wide + 48MP Ultrawide + 48MP Telephoto<br>
+                • Battery: 4870mAh + 30W Charging<br>
+                • RAM: 16GB 
+                • Storage: 128GB/512GB/1TB`
+            },
+
+            {
+                id: 10, name: "Samsung Galaxy Z Fold 7", price: 199900,
+                image: "https://fdn.gsmarena.com/imgroot/reviews/25/samsung-galaxy-z-fold7/lifestyle/-1024w2/gsmarena_007.jpg",
+                spec: "Snapdragon 8 Elite • 8.0\" Foldable • 200MP Camera • 4400mAh",
+                fullSpec: `• Display: 8.0" Main + 6.5" Cover Dynamic AMOLED<br>
+                • Chip: Snapdragon 8 Elite<br>
+                • Camera: 200MP Main + 50MP Ultrawide + 10MP Telephoto<br>
+                • Battery: 4400mAh + 25W Charging<br>
+                • RAM: 12GB/16GB 
+                • Storage: 256GB/512GB/1TB`
+            },
+
+            {
+                id: 11, name: "Honor Magic V5", price: 169999,
+                image: "https://www.challenger.sg/cdn/shop/files/6936520874064_jqq4jBmAmXWUptskYm3NUMhtTyKXLYF16AFvNiGf.jpg?v=1756100879&width=2000",
+                spec: "Snapdragon 8 Elite • 7.95\" Foldable • 5820mAh • IP58 / IP59",
+                fullSpec: `• Display: 7.95" Inner + 6.43" Outer Dynamic AMOLED<br>
+                • Chip: Snapdragon 8 Elite<br>
+                • Camera: 50MP Main + 50MP Ultrawide<br>
+                • Battery: 5820mAh + 66W Charging<br>
+                • RAM: 12GB/16GB 
+                • Storage: 256GB/512GB/1TB`
+            },
+
+            {
+                id: 12, name: "Oppo Find X9 Pro", price: 119999,
+                image: "https://www.apple.com/newsroom/images/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/article/Apple-iPhone-15-lineup-hero-geo-230912_inline.jpg.large_2x.jpg",
+                spec: "Dimensity 9500 • 200MP Periscope • 7500mAh • 80W Charge",
+                fullSpec: `• Display: 6.78" LTPO AMOLED<br>
+                • Chip: MediaTek Dimensity 9500<br>
+                • Camera: 50MP Main + 50MP Ultrawide + 200MP Telephoto<br>
+                • Battery: 7500mAh + 80W Charging<br>
+                • RAM: 12GB/16GB 
+                • Storage: 256GB/512GB/1TB`
+            },
+
+            {
+                id: 13, name: "Apple iPhone 15", price: 109900,
+                image: "https://www.apple.com/newsroom/images/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/article/Apple-iPhone-15-lineup-hero-geo-230912_inline.jpg.large_2x.jpg",
+                spec: "A16 Bionic • 48MP Main Camera • Dynamic Island • USB-C",
+                fullSpec: `• Display: 6.1" Super Retina XDR OLED<br>
+                • Chip: Apple A16 Bionic<br>
+                • Camera: 48MP Main + 12MP Ultrawide<br>
+                • Battery: 3349mAh + 20W Charging<br>
+                • RAM: 6GB • Storage: 128GB/256GB/512GB`
+            },
+
+            {
+                id: 14, name: "Motorola Razr Ultra (2025)", price: 129999,
+                image:"https://p3-ofp.static.pub//fes/cms/2025/05/03/x0sct486v61tpj626l8jezr2d8nvf3832023.png",
+                spec: "Snapdragon 8 Elite • Foldable • 50MP Dual Camera • 4700mAh",
+                fullSpec: `• Display: 7.0" Inner + 4.0" Outer pOLED<br>
+                • Chip: Snapdragon 8 Elite<br>
+                • Camera: 50MP Main + 50MP Ultrawide<br>
+                • Battery: 4700mAh + 125W Charging<br>
+                • RAM: 16GB 
+                • Storage: 512GB/1TB`
+            },
+
+            {
+                id: 15, name: "Sony Xperia 1 VII", price: 129999,
+                image: "https://sony.scene7.com/is/image/sonyglobalsolutions/Product-Intro-Plate-3_M-3?$productIntroPlatemobile$&fmt=png-alpha",
+                spec: "Snapdragon 8 Elite • 48MP Triple Camera • 5000mAh • 3.5mm Jack",
+                fullSpec: `• Display: 6.5" FHD+ OLED 120Hz<br>
+                • Chip: Snapdragon 8 Elite<br>
+                • Camera: 48MP Main + 48MP Ultrawide + 12MP Telephoto<br>
+                • Battery: 5000mAh + 30W Wired + 15W Wireless Charging<br>
+                • RAM: 12GB 
+                • Storage: 256GB/512GB`
+            },
+
+            {
+                id: 16, name: "OnePlus 15", price: 79999,
+                image: "https://image01-in.oneplus.net/media/202511/06/f96761005541e8715f92bda23561aa89.png?x-amz-process=image/format,webp/quality,Q_80",
+                spec: "Snapdragon 8 Elite Gen 5 • 7300mAh • 165Hz Display • 50MP Triple",
+                fullSpec: `• Display: 6.78" LTPO AMOLED 165Hz<br>
+                • Chip: Snapdragon 8 Elite Gen 5<br>
+                • Camera: 50MP Main + 50MP Ultrawide + 50MP Telephoto<br>
+                • Battery: 7300mAh + 120W Charging<br>
+                • RAM: 12GB/16GB 
+                • Storage: 256GB/512GB/1TB`
+            },
+
+            {
+                id: 17, name: "Google Pixel 9a", price: 49900,
+                image: "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Communication/Mobiles/Images/314883_0_dVwL6rPzk.png?updatedAt=1758548803978?tr=w-640",
+                spec: "Tensor G4 • 48MP Dual Camera • 5100mAh • 8GB RAM",
+                fullSpec: `• Display: 6.3" Actua OLED 120Hz<br>
+                • Chip: Google Tensor G4<br>
+                • Camera: 48MP Wide + 13MP Ultrawide<br>
+                • Battery: 5100mAh + 18W Charging<br>
+                • RAM: 8GB 
+                • Storage: 128GB/256GB`
+            },
+
+            {
+                id: 18, name: "Samsung Galaxy A56", price: 39999,
+                image: "https://images.samsung.com/is/image/samsung/p6pim/africa_en/sm-a566bliwafb/gallery/africa-en-galaxy-a56-5g-sm-a566-sm-a566bliwafb-545398609?$Q90_1248_936_F_PNG$",
+                spec: "Exynos 1580 • 50MP Triple Camera • 5000mAh • IP67",
+                fullSpec: `• Display: 6.7" Super AMOLED 120Hz<br>
+                • Chip: Exynos 1580<br>
+                • Camera: 50MP Main + 12MP Ultrawide + 5MP Macro<br>
+                • Battery: 5000mAh + 25W Charging<br>
+                • RAM: 8GB/12GB 
+                • Storage: 128GB/256GB`
+            },
+
+            {
+                id: 19, name: "Moto G Power 2025", price: 24999,
+                image: "https://p1-ofp.static.pub//fes/cms/2025/02/04/wlisqtilj5cg9w3bxzpme8nxs4cyj5325281.png",
+                spec: "Dimensity 6300 • 50MP Camera • 5000mAh • 120Hz LCD",
+                fullSpec: `• Display: 6.8" FHD+ LCD 120Hz<br>
+                • Chip: MediaTek Dimensity 6300<br>
+                • Camera: 50MP Main + 8MP Ultrawide<br>
+                • Battery: 5000mAh + 20W Charging<br>
+                • RAM: 8GB 
+                • Storage: 128GB`
+            },
+
+            {
+                id: 20, name: "iPhone Air", price: 99900,
+                image: "https://www.aptronixindia.com/cdn/shop/files/iPhone_17_Air_SpaceBlack_Grid_394ec352-dd77-4290-9e0f-3d7974b6f5f3.jpg?v=1762588940&width=823",
+                spec: "A19 Pro • 48MP Fusion Camera • 6.5\" Display • Titanium Slim",
+                fullSpec: `• Display: 6.5" Super Retina XDR OLED 120Hz<br>
+                • Chip: Apple A19 Pro<br>
+                • Camera: 48MP Main<br>
+                • Battery: 3149mAh + 20W Charging<br>
+                • RAM: 8GB 
+                • Storage: 256GB/512GB/1TB`
+            }
+        ];
+
+        function render(filter = '') {
+            const filtered = phones.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
+            document.getElementById('grid').innerHTML = filtered.map(p => `
+        <div class="glass rounded-3xl overflow-hidden" onclick="openProduct(${p.id})">
+            <img src="${p.image}" class="w-full h-64 object-contain p-8 bg-white/5" onerror="this.src='https://via.placeholder.com/300?text=No+Image'">
+            <div class="p-6 text-center">
+                <h3 class="text-xl font-bold">${p.name}</h3>
+                <p class="text-3xl font-black text-yellow-400 mt-4">₹${p.price.toLocaleString('en-IN')}</p>
+                <button onclick="event.stopPropagation(); addToCart(${p.id})"
+                        class="mt-4 w-full bg-yellow-400 text-black py-3 rounded-full font-bold hover:bg-white transition">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    `).join('');
+        }
+
+        function openProduct(id) {
+            const phone = phones.find(p => p.id === id);
+            localStorage.setItem('selectedPhone', JSON.stringify(phone));
+            window.location.href = 'product.html';
+        }
+
+        function addToCart(id) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const phone = phones.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            if (existing) existing.qty += 1;
+            else cart.push({ ...phone, qty: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert(phone.name + " added to cart!");
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
+        }
+
+        // Mobile menu
+        document.getElementById('menuBtn').onclick = () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        };
+
+        // Search + Load
+        document.getElementById('search').addEventListener('input', e => render(e.target.value));
+        render();
+        updateCartCount();
+    </script>
+</body>
+
+</html>

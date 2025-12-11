@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - MobileMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #000; color: white; font-family: 'Inter', sans-serif; }
+        .cart-item { transition: all 0.3s; }
+        .cart-item:hover { background: rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="min-h-screen pt-24 px-6">
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-40 backdrop-blur-xl bg-black/95 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="index.html" class="text-4xl font-black text-yellow-400">MobileMart</a>
+
+
+            <!-- SEARCH BOX ADDED HERE (THIS WAS MISSING!) -->
+            <div class="flex items-center gap-6">
+                <input type="text" id="search" placeholder="Search phones..."
+                    class="px-8 py-4 rounded-full bg-white/10 border border-white/20 focus:border-yellow-400 outline-none w-96 text-lg">
+
+                <nav class="hidden md:flex items-center gap-10 text-xl font-medium">
+                    <a href="productpage.html" class="hover:text-yellow-400 transition">Products</a>
+                    <a href="about.html" class="hover:text-yellow-400 transition">About</a>
+                    <a href="service.html" class="hover:text-yellow-400 transition">Service</a>
+                    <a href="profile.html" class="hover:text-yellow-400 transition flex items-center gap-2">
+                        <i class="fas fa-user-circle"></i> Profile
+                    </a>
+                </nav>
+            </div>
+
+            <button id="menuBtn" class="md:hidden text-3xl" title="Open menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-black/98 z-50 hidden flex-col items-center justify-center gap-12 text-3xl font-bold">
+        <button class="absolute top-10 right-10 text-5xl"
+            onclick="document.getElementById('mobileMenu').classList.add('hidden')">×</button>
+        <a href="productpage.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="service.html">Service</a>
+        <a href="profile.html">Profile</a>
+    </div>
+
+    <div class="max-w-5xl mx-auto">
+        <h1 class="text-6xl font-black text-center mb-12 text-yellow-400">Your Cart</h1>
+
+        <!-- Cart Items -->
+        <div id="cartItems" class="space-y-8 mb-10"></div>
+
+        <!-- Total & Checkout -->
+        <div class="bg-white/10 rounded-3xl p-8 text-right border border-white/20">
+            <p class="text-4xl font-black mb-6">
+                Total: ₹<span id="totalAmount" class="text-yellow-400">0</span>
+            </p>
+            <button onclick="window.location.href='payment.html'" 
+        class="w-full bg-yellow-400 text-black py-6 rounded-2xl text-2xl font-bold hover:bg-white transition transform hover:scale-105">
+    Proceed to Checkout
+</button>
+        </div>
+
+        <div class="text-center mt-10">
+            <a href="index.html" class="text-yellow-400 text-xl hover:underline">Continue Shopping</a>
+        </div>
+    </div>
+
+<script>
+// FULLY FIXED CART - WORKS 100%
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+let total = 0;
+
+// If cart is empty
+if (cart.length === 0) {
+    document.getElementById('cartItems').innerHTML = 
+        `<div class="text-center py-20">
+            <i class="fas fa-shopping-cart text-9xl text-gray-700 mb-8"></i>
+            <p class="text-4xl text-gray-500">Your cart is empty</p>
+            <a href="index.html" class="mt-8 inline-block bg-yellow-400 text-black px-12 py-4 rounded-full text-xl font-bold">Shop Now</a>
+        </div>`;
+} else {
+    // Show all items
+    document.getElementById('cartItems').innerHTML = cart.map(item => {
+        const itemTotal = item.price * item.qty;
+        total += itemTotal;
+
+        return `
+            <div class="cart-item bg-white/10 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 border border-white/10">
+                <!-- Image -->
+                <img src="${item.image}" class="w-40 h-40 object-contain rounded-2xl bg-white/5 p-4">
+
+                <!-- Details -->
+                <div class="flex-1 text-center md:text-left">
+                    <h3 class="text-3xl font-bold mb-2">${item.name}</h3>
+                    <p class="text-xl text-gray-400">₹${item.price.toLocaleString('en-IN')} each</p>
+                </div>
+
+                <!-- Quantity -->
+                <div class="flex items-center gap-6">
+                    <button onclick="updateQty(${item.id}, -1)" 
+                            class="w-14 h-14 bg-white/20 rounded-full text-3xl hover:bg-white/30 transition">-</button>
+                    <span class="text-4xl font-bold w-20 text-center">${item.qty}</span>
+                    <button onclick="updateQty(${item.id}, 1)" 
+                            class="w-14 h-14 bg-yellow-400 text-black rounded-full text-3xl hover:bg-white transition">+</button>
+                </div>
+
+                <!-- Total & Remove -->
+                <div class="text-right">
+                    <p class="text-3xl font-bold text-yellow-400 mb-4">₹${itemTotal.toLocaleString('en-IN')}</p>
+                    <button onclick="removeItem(${item.id})" 
+                            class="text-red-500 hover:text-red-400 text-xl font-medium">Remove</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Show total
+document.getElementById('totalAmount').textContent = total.toLocaleString('en-IN');
+
+// Update quantity
+window.updateQty = function(id, change) {
+    cart = cart.map(item => {
+        if (item.id === id) {
+            item.qty = Math.max(1, item.qty + change);
+        }
+        return item;
+    });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    location.reload(); // Refresh to update total
+};
+
+// Remove item
+window.removeItem = function(id) {
+    if (confirm("Remove this item from cart?")) {
+        cart = cart.filter(item => item.id !== id);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        location.reload();
+    }
+};
+</script>
+</body>
+</html>

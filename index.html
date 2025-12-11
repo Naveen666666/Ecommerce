@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MobileMart - 50+ Latest Mobiles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        .glass:hover {
+            transform: translateY(-16px);
+            border-color: #FFB800;
+            box-shadow: 0 30px 60px rgba(255, 184, 0, 0.3);
+        }
+
+        .floating-cart {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #FFB800;
+            color: black;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 15px 40px rgba(255, 184, 0, 0.6);
+            z-index: 50;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 184, 0, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 25px rgba(255, 184, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 184, 0, 0);
+            }
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.2);
+        }
+
+        .hero-bg {
+            background-image: url('https://image01.realme.net/general/20250106/17361502817105422a18050a94f7188fed855d611c0f7.jpg.webp');
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white">
+
+    <!-- Floating Cart -->
+    <div class="floating-cart" onclick="window.location.href='cart.html'">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cartCount"
+            class="absolute -top-3 -right-3 bg-red-600 text-white text-sm rounded-full w-9 h-9 flex items-center justify-center font-bold">0</span>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-40 backdrop-blur-xl bg-black/95 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="index.html" class="text-4xl font-black text-yellow-400">MobileMart</a>
+
+            <!-- SEARCH BOX ADDED HERE (THIS WAS MISSING!) -->
+            <div class="flex items-center gap-6">
+                <input type="text" id="search" placeholder="Search phones..."
+                    class="px-8 py-4 rounded-full bg-white/10 border border-white/20 focus:border-yellow-400 outline-none w-96 text-lg">
+
+                <nav class="hidden md:flex items-center gap-10 text-xl font-medium">
+                    <a href="productpage.html" class="hover:text-yellow-400 transition">Products</a>
+                    <a href="about.html" class="hover:text-yellow-400 transition">About</a>
+                    <a href="service.html" class="hover:text-yellow-400 transition">Service</a>
+                    <a href="profile.html" class="hover:text-yellow-400 transition flex items-center gap-2">
+                        <i class="fas fa-user-circle"></i> Profile
+                    </a>
+                </nav>
+            </div>
+
+            <button id="menuBtn" class="md:hidden text-3xl" title="Open menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-black/98 z-50 hidden flex-col items-center justify-center gap-12 text-3xl font-bold">
+        <button class="absolute top-10 right-10 text-5xl"
+            onclick="document.getElementById('mobileMenu').classList.add('hidden')">×</button>
+        <a href="productpage.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="service.html">Service</a>
+        <a href="profile.html">Profile</a>
+    </div>
+
+    <div class="absolute inset-0 bg-cover bg-center opacity-40 hero-bg"></div>
+    <section class="relative h-screen flex items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black"></div>
+        <div class="absolute inset-0 bg-cover bg-center opacity-40 hero-bg"></div>
+        <div class="relative text-center z-10 px-6">
+            <h1 class="text-6xl md:text-9xl font-black mb-6">PREMIUM<br>MOBILES </h1>
+            <p class="text-2xl md:text-4xl text-gray-300 mb-10">Best Prices • EMI • Bank Offers</p>
+        </div>
+    </section>
+
+    <!-- Shop by Brand -->
+    <section class="py-16 bg-black/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-black text-center mb-12 text-yellow-400">Shop by Brand</h2>
+            <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-10">
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/32/1/apple-logo-png_seeklogo-329197.png"
+                        alt="Apple logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">Apple</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/12/1/samsung-logo-png_seeklogo-122019.png"
+                        alt="Samsung logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">Samsung</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/34/1/realme-logo-png_seeklogo-349344.png"
+                        alt="realme logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">realme</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/37/1/oneplus-logo-png_seeklogo-372201.png"
+                        alt="OnePlus logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">OnePlus</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/31/1/mi-mobiles-logo-png_seeklogo-318623.png"
+                        alt="Xiaomi logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">Xiaomi</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/30/1/vivo-logo-png_seeklogo-305395.png"
+                        alt="vivo logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">vivo</p>
+                </div>
+                <div class="text-center"><img
+                        src="https://images.seeklogo.com/logo-png/35/1/oppo-logo-png_seeklogo-350834.png"
+                        alt="OPPO logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">OPPO</p>
+                </div>
+                <div class="text-center"><img src="https://images.indianexpress.com/2021/07/Nothing-logo.jpg?w=640"
+                        alt="Nothing logo" class="h-20 mx-auto brand-logo transition">
+                    <p class="mt-3 font-bold">Nothing</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section id="products" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-6xl font-black text-center mb-16 text-yellow-400">Latest Mobiles 2025</h2>
+            <div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
+                <!-- Phones load here -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 50+ REAL PHONES
+        const phones = [
+            { id: 1, name: "iPhone 16 Pro Max", price: 144900, image: "https://images.pexels.com/photos/29020349/pexels-photo-29020349.jpeg?_gl=1*1v9dpap*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTUzOTAkajM1JGwwJGgw" },
+            { id: 2, name: "Galaxy S25 Ultra", price: 134999, image: "https://images.pexels.com/photos/16149966/pexels-photo-16149966.jpeg?_gl=1*1grn8l7*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTU2NzEkajU4JGwwJGgw" },
+            { id: 3, name: "realme GT 7 Pro", price: 59999, image: "https://images.pexels.com/photos/31612612/pexels-photo-31612612.jpeg?_gl=1*1687vj3*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTYyNzckajUwJGwwJGgw" },
+            { id: 4, name: "OnePlus 13", price: 69999, image: "https://image01-in.oneplus.net/media/202412/17/052a246708df8233d079b3502aeeb327.png?x-amz-process=image/format,webp/quality,Q_80" },
+            { id: 5, name: "Xiaomi 15 Ultra", price: 89999, image: "https://i05.appmifile.com/4_item_uk/28/10/2025/789e58c4612ca510cdf4192392f64a9b.png?thumb=1&f=webp&q=85" },
+            { id: 6, name: "vivo X200 Pro", price: 79999, image: "https://www.myg.in/images/thumbnails/600/600/detailed/103/x200-pro-5g-v2413-vivo-original-imah7btsxgazhehr-removebg-preview.png.png" },
+            { id: 7, name: "Nothing Phone (3)", price: 49999, image: "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Communication/Mobiles/Images/314524_0_VTL_jxPp8.png?updatedAt=1758549799159?tr=w-640" },
+            { id: 8, name: "Motorola Edge 50 Ultra", price: 54999, image: "https://motorolaroe.vtexassets.com/arquivos/ids/157648-1200-auto?width=1200&height=auto&aspect=true" },
+            ];
+
+        function render(filter = '') {
+            const filtered = phones.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
+            document.getElementById('grid').innerHTML = filtered.map(p => `
+        <div class="glass rounded-3xl overflow-hidden" onclick="openProduct(${p.id})">
+            <img src="${p.image}" class="w-full h-64 object-contain p-8 bg-white/5" onerror="this.src='https://via.placeholder.com/300?text=No+Image'">
+            <div class="p-6 text-center">
+                <h3 class="text-xl font-bold">${p.name}</h3>
+                <p class="text-3xl font-black text-yellow-400 mt-4">₹${p.price.toLocaleString('en-IN')}</p>
+                <button onclick="event.stopPropagation(); addToCart(${p.id})"
+                        class="mt-4 w-full bg-yellow-400 text-black py-3 rounded-full font-bold hover:bg-white transition">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    `).join('');
+        }
+
+        function openProduct(id) {
+            const phone = phones.find(p => p.id === id);
+            localStorage.setItem('selectedPhone', JSON.stringify(phone));
+            window.location.href = 'product.html';
+        }
+
+        function addToCart(id) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const phone = phones.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            if (existing) existing.qty += 1;
+            else cart.push({ ...phone, qty: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert(phone.name + " added to cart!");
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
+        }
+
+        // Mobile menu
+        document.getElementById('menuBtn').onclick = () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        };
+
+        // Search + Load
+        document.getElementById('search').addEventListener('input', e => render(e.target.value));
+        render();
+        updateCartCount();
+    </script>
+</body>
+
+</html>

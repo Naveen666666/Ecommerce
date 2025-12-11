@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt - MobileMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #000, #1a0033);
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.08);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-6">
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-40 backdrop-blur-xl bg-black/95 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="index.html" class="text-4xl font-black text-yellow-400">MobileMart</a>
+
+            <!-- SEARCH BOX ADDED HERE (THIS WAS MISSING!) -->
+            <div class="flex items-center gap-6">
+                <input type="text" id="search" placeholder="Search phones..."
+                    class="px-8 py-4 rounded-full bg-white/10 border border-white/20 focus:border-yellow-400 outline-none w-96 text-lg">
+
+                <nav class="hidden md:flex items-center gap-10 text-xl font-medium">
+                    <a href="productpage.html" class="hover:text-yellow-400 transition">Products</a>
+                    <a href="about.html" class="hover:text-yellow-400 transition">About</a>
+                    <a href="service.html" class="hover:text-yellow-400 transition">Service</a>
+                    <a href="profile.html" class="hover:text-yellow-400 transition flex items-center gap-2">
+                        <i class="fas fa-user-circle"></i> Profile
+                    </a>
+                </nav>
+            </div>
+
+            <button id="menuBtn" class="md:hidden text-3xl" title="Open menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-black/98 z-50 hidden flex-col items-center justify-center gap-12 text-3xl font-bold">
+        <button class="absolute top-10 right-10 text-5xl"
+            onclick="document.getElementById('mobileMenu').classList.add('hidden')">×</button>
+        <a href="productpage.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="service.html">Service</a>
+        <a href="profile.html">Profile</a>
+    </div>
+
+    <div class="box rounded-3xl p-10 max-w-4xl w-full">
+        <h1 class="text-6xl font-black text-center text-yellow-400 mb-8">Order Confirmed!</h1>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-10 text-xl">
+            <div>
+                <p><strong>Order Date:</strong> <span id="date"></span></p>
+            </div>
+            <div class="box rounded-2xl p-6">
+                <p class="text-2xl font-bold text-yellow-400 mb-4">Delivery Address</p>
+                <p id="addrName" class="font-bold text-xl"></p>
+                <p id="addrFlat"></p>
+                <p id="addrArea"></p>
+                <p id="addrCity"></p>
+                <p id="addrPhone" class="mt-4"></p>
+            </div>
+        </div>
+
+        <div id="items" class="space-y-6 mb-10"></div>
+
+        <div class="border-t border-white/30 pt-8 text-right text-3xl font-black">
+            Total Paid: ₹<span id="total" class="text-yellow-400">0</span>
+        </div>
+
+        <div class="text-center mt-12">
+            <button onclick="window.print()"
+                class="bg-yellow-400 text-black px-12 py-5 rounded-full text-2xl font-bold hover:bg-white">
+                Print Receipt
+            </button>
+            <a href="index.html"
+                class="ml-6 inline-block bg-white/20 px-12 py-5 rounded-full text-2xl font-bold hover:bg-white/30">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const order = JSON.parse(localStorage.getItem('finalOrder') || '{}');
+        if (!order.cart || order.cart.length === 0) {
+            document.body.innerHTML = "<h1 class='text-center text-6xl py-40'>No order found!</h1>";
+        } else {
+            document.getElementById('date').textContent = order.date;
+
+            const a = order.address;
+            document.getElementById('addrName').textContent = a.name;
+            document.getElementById('addrFlat').textContent = a.flat;
+            document.getElementById('addrArea').innerHTML = `${a.area || '—'}<br>${a.pincode}`;
+            document.getElementById('addrCity').textContent = `${a.city}, ${a.state}`;
+            document.getElementById('addrPhone').textContent = "Phone: " + a.phone;
+
+            let total = 0;
+            document.getElementById('items').innerHTML = order.cart.map(item => {
+                total += item.price * item.qty;
+                return `<div class="flex justify-between items-center bg-white/5 rounded-2xl p-6">
+                <div class="flex items-center gap-6">
+                    <img src="${item.image}" class="w-20 h-20 object-contain rounded-xl">
+                    <div>
+                        <h3 class="text-xl font-bold">${item.name}</h3>
+                        <p class="text-gray-400">Qty: ${item.qty}</p>
+                    </div>
+                </div>
+                <p class="text-xl font-bold text-yellow-400">₹${(item.price * item.qty).toLocaleString('en-IN')}</p>
+            </div>`;
+            }).join('');
+
+            document.getElementById('total').textContent = total.toLocaleString('en-IN');
+        }
+    </script>
+</body>
+
+</html>

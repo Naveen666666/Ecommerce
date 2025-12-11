@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - MobileMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* TYPE PANNA TEXT RED COLOR LA VARUM */
+        input,
+        select {
+            width: 100%;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-radius: 1rem;
+            background-color: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            font-size: 1.25rem;
+            transition: border-color 0.2s;
+            outline: none;
+            color: black !important;
+            caret-color: black;
+        }
+
+        input::placeholder,
+        select::placeholder {
+            color: #888 !important;
+        }
+
+        /* Autofill text also RED */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+            -webkit-text-fill-color: black !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen pt-20 px-6">
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-40 backdrop-blur-xl bg-black/95 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="index.html" class="text-4xl font-black text-yellow-400">MobileMart</a>
+
+
+            <!-- SEARCH BOX ADDED HERE (THIS WAS MISSING!) -->
+            <div class="flex items-center gap-6">
+                <input type="text" id="search" placeholder="Search phones..."
+                    class="px-8 py-4 rounded-full bg-white/10 border border-white/20 focus:border-yellow-400 outline-none w-96 text-lg">
+
+                <nav class="hidden md:flex items-center gap-10 text-xl font-medium">
+                    <a href="productpage.html" class="hover:text-yellow-400 transition">Products</a>
+                    <a href="about.html" class="hover:text-yellow-400 transition">About</a>
+                    <a href="service.html" class="hover:text-yellow-400 transition">Service</a>
+                    <a href="profile.html" class="hover:text-yellow-400 transition flex items-center gap-2">
+                        <i class="fas fa-user-circle"></i> Profile
+                    </a>
+                </nav>
+            </div>
+
+            <button id="menuBtn" class="md:hidden text-3xl" title="Open menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-black/98 z-50 hidden flex-col items-center justify-center gap-12 text-3xl font-bold">
+        <button class="absolute top-10 right-10 text-5xl"
+            onclick="document.getElementById('mobileMenu').classList.add('hidden')">×</button>
+        <a href="productpage.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="service.html">Service</a>
+        <a href="profile.html">Profile</a>
+    </div>
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12">
+
+        <!-- ORDER SUMMARY -->
+        <div>
+            <h1 class="text-5xl font-black mb-10 text-yellow-400">Order Summary</h1>
+            <div id="items"></div>
+
+            <div class="card rounded-3xl p-8 mt-8 text-2xl">
+                <div class="flex justify-between mb-4"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+                <div class="flex justify-between mb-4 text-green-400"><span>Delivery</span><span>FREE</span></div>
+                <div class="border-t border-white/30 pt-6 flex justify-between text-3xl font-black text-yellow-400">
+                    <span>Total</span><span id="total">₹0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADDRESS + PAYMENT -->
+        <div>
+            <h1 class="text-5xl font-black mb-10 text-yellow-400">Delivery Address & Payment</h1>
+
+            <div class="card rounded-3xl p-10 space-y-10">
+
+                <!-- DELIVERY ADDRESS -->
+                <div>
+                    <h2 class="text-3xl font-bold text-yellow-400 mb-8">Delivery Address</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <input type="text" id="name" placeholder="Full Name *" required>
+                        <input type="number" id="phone" placeholder="Phone Number *" required>
+                        <input type="number" id="pincode" placeholder="PIN Code *" required>
+                        <input type="text" id="flat" placeholder="Flat/House No, Building *" required
+                            class="md:col-span-2">
+                        <input type="text" id="area" placeholder="Area / Locality">
+                        <input type="text" id="city" placeholder="City / District *" required>
+                        <label for="state" class="sr-only">State *</label>
+                        <select id="state" required>
+                            <option value="">Select State *</option>
+                            <option>Tamil Nadu</option>
+                            <option>Kerala</option>
+                            <option>Karnataka</option>
+                            <option>Maharashtra</option>
+                            <option>Delhi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- PAYMENT -->
+                <div class="border-t border-white/30 pt-10">
+                    <h2 class="text-3xl font-bold text-yellow-400 mb-6">Payment Method</h2>
+                    <input type="text" placeholder="Card Number" class="mb-6">
+                    <div class="grid grid-cols-2 gap-6 mb-6">
+                        <input type="text" placeholder="MM/YY" maxlength="5"
+                            class="px-2 py-5 rounded-2xl bg-white/10 border border-white/20 focus:border-yellow-400 outline-none text-xl text-white text-center tracking-widest"
+                            oninput="this.value = this.value.replace(/[^0-9]{2}\/?[0-9]{0,2}/, '').slice(0,5);
+                            if(this.value.length === 2 && !this.value.includes('/')) this.value += '/';">
+                        <input type="number" placeholder="CVV" maxlength="3" oninput="this.value = this.value.slice(0, 3)">
+                    </div>
+                    <input type="text" placeholder="Name on Card">
+                </div>
+
+                <!-- PAY BUTTON -->
+                <button onclick="completeOrder()"
+                    class="w-full bg-yellow-400 text-black py-8 rounded-3xl text-3xl font-black hover:bg-white transition transform hover:scale-105">
+                    Pay ₹<span id="payAmount">0</span> → Complete Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        let total = 0;
+
+        document.getElementById('items').innerHTML = cart.map(item => {
+            total += item.price * item.qty;
+            return `<div class="card rounded-3xl p-6 flex items-center gap-6 mb-6">
+            <img src="${item.image}" class="w-28 h-28 object-contain rounded-2xl">
+            <div><h3 class="text-2xl font-bold">${item.name}</h3>
+            <p class="text-xl text-gray-400">Qty: ${item.qty}</p></div>
+            <p class="text-2xl font-bold text-yellow-400 ml-auto">₹${(item.price * item.qty).toLocaleString('en-IN')}</p>
+        </div>`;
+        }).join('') || '<p class="text-center text-3xl text-gray-500 py-20">Cart is empty</p>';
+
+        document.getElementById('subtotal').textContent = '₹' + total.toLocaleString('en-IN');
+        document.getElementById('total').textContent = '₹' + total.toLocaleString('en-IN');
+        document.getElementById('payAmount').textContent = total.toLocaleString('en-IN');
+
+        function completeOrder() {
+            const addr = {
+                name: document.getElementById('name').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                pincode: document.getElementById('pincode').value.trim(),
+                flat: document.getElementById('flat').value.trim(),
+                area: document.getElementById('area').value.trim(),
+                city: document.getElementById('city').value.trim(),
+                state: document.getElementById('state').value
+            };
+
+            if (!addr.name || !addr.phone || !addr.pincode || !addr.flat || !addr.city || !addr.state) {
+                alert("Please fill all required fields (*)");
+                return;
+            }
+
+            const finalOrder = { cart, total, address: addr, date: new Date().toLocaleString('en-IN') };
+            localStorage.setItem('finalOrder', JSON.stringify(finalOrder));
+            localStorage.removeItem('cart');
+            window.location.href = 'receipt.html';
+        }
+    </script>
+</body>
+
+</html>

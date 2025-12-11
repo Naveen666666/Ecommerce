@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - MobileMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .avatar {
+            width: 130px;
+            height: 130px;
+            background: linear-gradient(135deg, #FFB800, #ff8c00);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen pt-20 px-6">
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-40 backdrop-blur-xl bg-black/95 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="index.html" class="text-4xl font-black text-yellow-400">MobileMart</a>
+
+
+            <!-- SEARCH BOX ADDED HERE (THIS WAS MISSING!) -->
+            <div class="flex items-center gap-6">
+                <input type="text" id="search" placeholder="Search phones..."
+                    class="px-8 py-4 rounded-full bg-white/10 border border-white/20 focus:border-yellow-400 outline-none w-96 text-lg">
+
+                <nav class="hidden md:flex items-center gap-10 text-xl font-medium">
+                    <a href="productpage.html" class="hover:text-yellow-400 transition">Products</a>
+                    <a href="about.html" class="hover:text-yellow-400 transition">About</a>
+                    <a href="service.html" class="hover:text-yellow-400 transition">Service</a>
+                    <a href="profile.html" class="hover:text-yellow-400 transition flex items-center gap-2">
+                        <i class="fas fa-user-circle"></i> Profile
+                    </a>
+                </nav>
+            </div>
+
+            <button id="menuBtn" class="md:hidden text-3xl" title="Open menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-black/98 z-50 hidden flex-col items-center justify-center gap-12 text-3xl font-bold">
+        <button class="absolute top-10 right-10 text-5xl"
+            onclick="document.getElementById('mobileMenu').classList.add('hidden')">×</button>
+        <a href="productpage.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="service.html">Service</a>
+        <a href="profile.html">Profile</a>
+    </div>
+
+
+    <div class="max-w-4xl mx-auto">
+
+        <!-- Profile Header -->
+        <div class="text-center mb-16">
+            <div
+                class="avatar rounded-full mx-auto flex items-center justify-center text-6xl font-black text-black shadow-2xl">
+                <i class="fas fa-user"></i>
+            </div>
+            <h1 class="text-6xl font-black mt-8 text-yellow-400">My Profile</h1>
+            <p class="text-3xl text-gray-300 mt-4">Welcome back, <span id="userName"
+                    class="text-yellow-300">User</span>!</p>
+        </div>
+
+        <!-- Personal Information Only -->
+        <div class="glass rounded-3xl p-12 mb-12">
+            <h2 class="text-4xl font-black mb-10 text-yellow-400 flex items-center gap-5">
+                <i class="fas fa-id-card"></i> Personal Information
+            </h2>
+            <div class="space-y-8 text-2xl">
+                <div class="flex justify-between items-center py-4 border-b border-white/10">
+                    <span class="text-gray-400">Full Name</span>
+                    <span id="pName" class="font-bold text-yellow-300">John Doe</span>
+                </div>
+                <div class="flex justify-between items-center py-4 border-b border-white/10">
+                    <span class="text-gray-400">Email</span>
+                    <span id="pEmail" class="font-bold">john@example.com</span>
+                </div>
+                <div class="flex justify-between items-center py-4">
+                    <span class="text-gray-400">Phone</span>
+                    <span id="pPhone" class="font-bold">+91 98765 43210</span>
+                </div>
+            </div>
+            <button onclick="editProfile()"
+                class="mt-10 w-full bg-yellow-400 text-black py-5 rounded-2xl text-2xl font-bold hover:bg-white transition shadow-lg">
+                Edit Profile
+            </button>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="glass rounded-3xl p-12">
+            <h2 class="text-4xl font-black mb-10 text-yellow-400 flex items-center gap-5">
+                <i class="fas fa-shopping-bag"></i> Recent Orders
+            </h2>
+            <div id="orders" class="space-y-6"></div>
+            <p id="noOrders" class="text-center text-3xl text-gray-500 py-16">No orders yet</p>
+        </div>
+
+        <!-- Logout -->
+        <div class="text-center mt-16">
+            <button onclick="logout()"
+                class="bg-red-600 hover:bg-red-700 text-white px-16 py-6 rounded-full text-2xl font-bold transition shadow-xl">
+                <i class="fas fa-sign-out-alt mr-3"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Load name from last order or default
+        const finalOrder = JSON.parse(localStorage.getItem('finalOrder') || '{}');
+        const savedName = localStorage.getItem('userName');
+
+        if (finalOrder.address && finalOrder.address.name) {
+            document.getElementById('userName').textContent = finalOrder.address.name;
+            document.getElementById('pName').textContent = finalOrder.address.name;
+            document.getElementById('pPhone').textContent = finalOrder.address.phone || "+91 98765 43210";
+        } else if (savedName) {
+            document.getElementById('userName').textContent = savedName;
+            document.getElementById('pName').textContent = savedName;
+        }
+
+        // Show recent order
+        if (finalOrder.cart && finalOrder.cart.length > 0) {
+            document.getElementById('noOrders').style.display = 'none';
+            document.getElementById('orders').innerHTML = `
+        <div class="bg-white/10 rounded-3xl p-10 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center gap-8">
+                <div class="bg-gray-800 rounded-2xl w-24 h-24 flex items-center justify-center">
+                    <i class="fas fa-mobile-alt text-5xl text-yellow-400"></i>
+                </div>
+                <div>
+                    <h3 class="text-3xl font-bold">${finalOrder.cart.length} Item(s)</h3>
+                    <p class="text-2xl text-gray-400">Ordered on ${finalOrder.date}</p>
+                </div>
+            </div>
+            <div class="text-center md:text-right mt-6 md:mt-0">
+                <p class="text-4xl font-black text-yellow-400">₹${finalOrder.total.toLocaleString('en-IN')}</p>
+                <p class="text-xl text-green-400 mt-3">Delivered Tomorrow</p>
+            </div>
+        </div>
+    `;
+        }
+
+        function editProfile() {
+            const newName = prompt("Enter your name:", document.getElementById('pName').textContent);
+            if (newName) {
+                document.getElementById('userName').textContent = newName;
+                document.getElementById('pName').textContent = newName;
+                localStorage.setItem('userName', newName);
+            }
+        }
+
+        function logout() {
+            if (confirm("Logout from MobileMart?")) {
+                localStorage.clear();
+                alert("Logged out successfully!");
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+
+</html>
