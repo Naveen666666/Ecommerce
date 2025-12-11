@@ -187,16 +187,105 @@
 
     <script>
         // 50+ REAL PHONES
-        const phones = [
-            { id: 1, name: "iPhone 16 Pro Max", price: 144900, image: "https://images.pexels.com/photos/29020349/pexels-photo-29020349.jpeg?_gl=1*1v9dpap*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTUzOTAkajM1JGwwJGgw" },
-            { id: 2, name: "Galaxy S25 Ultra", price: 134999, image: "https://images.pexels.com/photos/16149966/pexels-photo-16149966.jpeg?_gl=1*1grn8l7*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTU2NzEkajU4JGwwJGgw" },
-            { id: 3, name: "realme GT 7 Pro", price: 59999, image: "https://images.pexels.com/photos/31612612/pexels-photo-31612612.jpeg?_gl=1*1687vj3*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTYyNzckajUwJGwwJGgw" },
-            { id: 4, name: "OnePlus 13", price: 69999, image: "https://image01-in.oneplus.net/media/202412/17/052a246708df8233d079b3502aeeb327.png?x-amz-process=image/format,webp/quality,Q_80" },
-            { id: 5, name: "Xiaomi 15 Ultra", price: 89999, image: "https://i05.appmifile.com/4_item_uk/28/10/2025/789e58c4612ca510cdf4192392f64a9b.png?thumb=1&f=webp&q=85" },
-            { id: 6, name: "vivo X200 Pro", price: 79999, image: "https://www.myg.in/images/thumbnails/600/600/detailed/103/x200-pro-5g-v2413-vivo-original-imah7btsxgazhehr-removebg-preview.png.png" },
-            { id: 7, name: "Nothing Phone (3)", price: 49999, image: "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Communication/Mobiles/Images/314524_0_VTL_jxPp8.png?updatedAt=1758549799159?tr=w-640" },
-            { id: 8, name: "Motorola Edge 50 Ultra", price: 54999, image: "https://motorolaroe.vtexassets.com/arquivos/ids/157648-1200-auto?width=1200&height=auto&aspect=true" },
-            ];
+        const phones = [{
+                id: 1, name: "iPhone 16 Pro Max", price: 144900,
+                image: "https://images.pexels.com/photos/29020349/pexels-photo-29020349.jpeg?_gl=1*1v9dpap*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTUzOTAkajM1JGwwJGgw",
+                spec: "A18 Pro • 48MP Fusion Camera • 120Hz ProMotion • Titanium Design • Apple Intelligence",
+                fullSpec: `• Display: 6.9" Super Retina XDR 120Hz<br>
+               • Chip: Apple A18 Pro (3nm)<br>
+               • Camera: 48MP Fusion + 48MP Ultra Wide + 12MP 5x Telephoto<br>
+               • Video: 4K 120fps ProRes<br>
+               • Battery: Up to 33 hours video<br>
+               • Build: Aerospace-grade Titanium, IP68`},
+
+            {
+                id: 2, name: "Galaxy S25 Ultra", price: 134999,
+                image: "https://images.pexels.com/photos/16149966/pexels-photo-16149966.jpeg?_gl=1*1grn8l7*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTU2NzEkajU4JGwwJGgw",
+                spec: "Snapdragon 8 Gen 4 • 200MP Camera • S Pen • Anti-reflective Display",
+                fullSpec: `• Display: 6.9" Dynamic AMOLED 2X QHD+<br>
+               • Chip: Snapdragon 8 Gen 4 for Galaxy<br>
+               • Camera: 200MP Main + 50MP Periscope + 10MP 3x<br>
+               • Features: Built-in S Pen, Galaxy AI<br>
+               • Battery: 5000mAh + 45W Charging<br>
+               • Build: Titanium Frame, Gorilla Glass Armor`},
+
+            {
+                id: 3, name: "realme GT 7 Pro", price: 59999,
+                image: "https://images.pexels.com/photos/31612612/pexels-photo-31612612.jpeg?_gl=1*1687vj3*_ga*MTc2MzM2MTA3Ni4xNzUwODMyODYz*_ga_8JE65Q40S6*czE3NjUzNTUzNjUkbzIkZzEkdDE3NjUzNTYyNzckajUwJGwwJGgw",
+                spec: "Snapdragon 8 Elite • 120W Ultra Charge • 6000mAh • IP69",
+                fullSpec: `• Display: 6.78" 1.5K Curved AMOLED 120Hz<br>
+               • Chip: Snapdragon 8 Elite<br>
+               • Camera: 50MP Sony IMX906 OIS + 50MP Periscope<br>
+               • Battery: 6000mAh + 120W SuperVOOC<br>
+               • Charging: 0-100% in 28 mins<br>
+               • Protection: IP69 Dust & Water Resistant`},
+
+            {
+                id: 4, name: "OnePlus 13", price: 69999,
+                image: "https://image01-in.oneplus.net/media/202412/17/052a246708df8233d079b3502aeeb327.png?x-amz-process=image/format,webp/quality,Q_80",
+                spec: "Snapdragon 8 Elite • 6000mAh • 100W SUPERVOOC • Hasselblad Camera",
+                fullSpec: `• Display: 6.82" 2K 120Hz AMOLED<br>
+               • Chip: Snapdragon 8 Elite<br>
+               • Camera: 50MP Sony LYT-808 + 50MP Ultra Wide + 50MP Telephoto<br>
+               • Battery: 6000mAh + 100W Wired + 50W Wireless<br>
+               • Charging: 0-100% in 36 mins<br>
+               • OxygenOS 15 with AI features`},
+
+            {
+                id: 5, name: "Xiaomi 15 Ultra", price: 89999,
+                image: "https://i05.appmifile.com/4_item_uk/28/10/2025/789e58c4612ca510cdf4192392f64a9b.png?thumb=1&f=webp&q=85",
+                spec: "Leica 200MP • Snapdragon 8 Gen 4 • 120W HyperCharge",
+                fullSpec: `• Display: 6.73" 2K 120Hz AMOLED<br>
+               • Chip: Snapdragon 8 Gen 4<br>
+               • Camera: Leica Quad 50MP (200MP Main)<br>
+               • Battery: 5500mAh + 120W Wired + 50W Wireless<br>
+               • HyperOS 2.0 based on Android 15<br>
+               • Ceramic or Vegan Leather back`},
+
+            {
+                id: 6, name: "vivo X200 Pro", price: 79999,
+                image: "https://www.myg.in/images/thumbnails/600/600/detailed/103/x200-pro-5g-v2413-vivo-original-imah7btsxgazhehr-removebg-preview.png.png",
+                spec: "Zeiss 200MP • Dimensity 9400 • 5700mAh • 120W FlashCharge",
+                fullSpec: `• Display: 6.78" 2K 120Hz AMOLED<br>
+               • Chip: MediaTek Dimensity 9400<br>
+               • Camera: 200MP ZEISS APO + 50MP Ultra Wide<br>
+               • Battery: 5700mAh + 120W FlashCharge<br>
+               • OriginOS 5 with AI features<br>
+               • IP68 + IP69 rating`},
+
+            {
+                id: 7, name: "Nothing Phone (3)", price: 49999,
+                image: "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Communication/Mobiles/Images/314524_0_VTL_jxPp8.png?updatedAt=1758549799159?tr=w-640",
+                spec: "Glyph Interface • Clean Android • 120Hz Display • 50MP Dual",
+                fullSpec: `• Display: 6.7" AMOLED 120Hz<br>
+               • Chip: Snapdragon 8s Gen 3<br>
+               • Camera: 50MP Main + 50MP Ultra Wide<br>
+               • Battery: 5000mAh + 65W Charging<br>
+               • Nothing OS 3.0 (Clean Android)<br>
+               • Unique Transparent Design + Glyph Lights`},
+
+            {
+                id: 8, name: "Motorola Edge 50 Ultra", price: 54999,
+                image: "https://motorolaroe.vtexassets.com/arquivos/ids/157648-1200-auto?width=1200&height=auto&aspect=true",
+                spec: "Snapdragon 8s Gen 3 • 144Hz pOLED • 125W TurboPower",
+                fullSpec: `• Display: 6.7" pOLED 144Hz 1.5K<br>
+               • Chip: Snapdragon 8s Gen 3<br>
+               • Camera: 50MP OIS + 64MP Telephoto + 50MP Ultra Wide<br>
+               • Battery: 4500mAh + 125W TurboPower<br>
+               • 50W Wireless + 10W Reverse<br>
+               • Pantone Validated Color`},
+            {
+                id: 9, name: "Google Pixel 10 Pro", price: 84900,
+                image: "https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Communication/Mobiles/Images/318395_0_UyVzL-I9C.png?updatedAt=1755700508474?tr=w-640",
+                spec: "Tensor G5 • 50MP Triple Camera • 24+ hrs Battery • 16GB RAM",
+                fullSpec: `• Display: 6.3" Super Actua LTPO OLED 120Hz<br>
+                • Chip: Google Tensor G5<br>
+                • Camera: 50MP Wide + 48MP Ultrawide + 48MP Telephoto<br>
+                • Battery: 4870mAh + 30W Charging<br>
+                • RAM: 16GB 
+                • Storage: 128GB/512GB/1TB`
+            }
+        ];
 
         function render(filter = '') {
             const filtered = phones.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
